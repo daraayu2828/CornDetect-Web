@@ -9,12 +9,12 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "Model", "Model_CNN_256px.keras")
+MODEL_PATH = None
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-model = load_model(MODEL_PATH)
+model = None
 
 class_labels = {
     0: "Bercak Daun",
@@ -118,6 +118,9 @@ def predict_image(img_path):
     img_array = image.img_to_array(img)
     img_array = np.expand_dims(img_array, axis=0)
     img_array = img_array / 255.0
+
+    if model is None:
+        return "Model belum tersedia", 0, {}
 
     prediction = model.predict(img_array)
     probabilities = prediction[0] * 100
