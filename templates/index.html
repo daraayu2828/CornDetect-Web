@@ -1109,7 +1109,7 @@
                     <h1 class="hero-title">Deteksi Penyakit<br>Daun <em>Jagung</em> Instan</h1>
                     <p class="hero-desc">Unggah foto daun jagung atau aktifkan kamera live untuk mendeteksi penyakit secara cepat dan akurat menggunakan model AI berbasis CNN.</p>
                     <div class="hero-actions">
-                        <button type="button" class="btn-primary" onclick="document.getElementById('file').click()">
+                        <button type="button" class="btn-primary" onclick="chooseImageFromAndroid()">
                             📤 Upload Gambar
                         </button>
                         <button type="button" class="btn-ghost" onclick="startLiveDetection()">
@@ -1135,18 +1135,18 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <form action="/" method="post" enctype="multipart/form-data">
-                            <div class="upload-zone" onclick="document.getElementById('file').click()">
+                        <form id="uploadForm" onsubmit="return false;">
+                            <div class="upload-zone" onclick="chooseImageFromAndroid()">
                                 <span class="upload-zone-icon">🖼️</span>
                                 <h4>Upload gambar daun jagung</h4>
                                 <p>Klik untuk memilih file atau drag & drop</p>
-                                <label for="file" class="file-label" onclick="event.stopPropagation()">
+                                <label class="file-label" onclick="event.stopPropagation(); chooseImageFromAndroid(); return false;">
                                     📁 Pilih Gambar
                                 </label>
                                 <input type="file" name="file" id="file" accept="image/*" onchange="previewImage(event)">
                                 <img id="preview" class="preview-img">
                             </div>
-                            <button type="submit" class="detect-btn">
+                            <button type="button" class="detect-btn" onclick="chooseImageFromAndroid()">
                                 🔬 Deteksi dari Upload
                             </button>
                         </form>
@@ -1277,46 +1277,31 @@
     const MAX_HISTORY_ITEMS = 10;
     const serverResult = {% if result %}{{ result | tojson | safe }}{% else %}null{% endif %};
 
-    let videoStream = null;
-    let liveDetecting = false;
-    let isPredicting = false;
-    let intervalId = null;
+    /*
+      MODE HYBRID ANDROID:
+      - Tampilan tetap dari website PioCode.
+      - Model TFLite ada di Android Studio/assets.
+      - Tombol Upload/Kamera memanggil Android Bridge.
+      - Android akan mengirim hasil balik ke fungsi showResultFromAndroid().
+    */
 
-    function previewImage(event) {
-        const preview = document.getElementById("preview");
-        preview.src = URL.createObjectURL(event.target.files[0]);
-        preview.style.display = "block";
+    function isAndroidApp() {
+        return typeof Android !== "undefined";
     }
 
-    async function startLiveDetection() {
-        const video = document.getElementById("video");
-        const startBtn = document.getElementById("startBtn");
-        const stopBtn = document.getElementById("stopBtn");
-        const liveStatus = document.getElementById("liveStatus");
+    function chooseImageFromAndroid() {
+        if (isAndroidApp()) {
+            Android.openImagePicker();
+        } else {
+            alert("Fitur deteksi AI hanya berjalan di aplikasi Android. Silakan buka melalui APK CornDetect.");
+        }
+    }
 
-        try {
-            videoStream = await navigator.mediaDevices.getUserMedia({
-                video: { facingMode: "environment" },
-                audio: false
-            });
-
-            video.srcObject = videoStream;
-            video.style.display = "block";
-
-            startBtn.style.display = "none";
-            stopBtn.style.display = "flex";
-            liveStatus.style.display = "block";
-
-            liveDetecting = true;
-
-            setTimeout(() => {
-                predictFrame();
-                intervalId = setInterval(predictFrame, 1500);
-            }, 800);
-
-        } catch (error) {
-            alert("Kamera tidak bisa dibuka. Pastikan izin kamera di browser sudah diizinkan.");
-            console.error(error);
+    function startLiveDetection() {
+        if (isAndroidApp()) {
+            Android.openCamera();
+        } else {
+            alert("Fitur kamera AI hanya berjalan di aplikasi Android. Silakan buka melalui APK CornDetect.");
         }
     }
 
@@ -1326,52 +1311,115 @@
         const stopBtn = document.getElementById("stopBtn");
         const liveStatus = document.getElementById("liveStatus");
 
-        liveDetecting = false;
-
-        if (intervalId) { clearInterval(intervalId); intervalId = null; }
-        if (videoStream) { videoStream.getTracks().forEach(t => t.stop()); videoStream = null; }
-
-        video.srcObject = null;
-        video.style.display = "none";
-
-        startBtn.style.display = "flex";
-        stopBtn.style.display = "none";
-        liveStatus.style.display = "none";
-    }
-
-    async function predictFrame() {
-        if (!liveDetecting || isPredicting) return;
-
-        const video = document.getElementById("video");
-        const canvas = document.getElementById("canvas");
-
-        if (!video.videoWidth || !video.videoHeight) return;
-
-        isPredicting = true;
-
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-
-        const ctx = canvas.getContext("2d");
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-
-        const imageData = canvas.toDataURL("image/jpeg", 0.8);
-
-        try {
-            const response = await fetch("/predict-live", {
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ image: imageData })
-            });
-
-            const result = await response.json();
-            updateResult(result);
-
-        } catch (error) {
-            console.error("Gagal prediksi live:", error);
+        if (video) {
+            video.srcObject = null;
+            video.style.display = "none";
         }
 
-        isPredicting = false;
+        if (startBtn) startBtn.style.display = "flex";
+        if (stopBtn) stopBtn.style.display = "none";
+        if (liveStatus) liveStatus.style.display = "none";
+    }
+
+    function previewImage(event) {
+        const preview = document.getElementById("preview");
+        if (!event.target.files || !event.target.files[0]) return;
+
+        preview.src = URL.createObjectURL(event.target.files[0]);
+        preview.style.display = "block";
+
+        if (!isAndroidApp()) {
+            alert("Gambar berhasil dipilih, tetapi prediksi model hanya berjalan di aplikasi Android.");
+        }
+    }
+
+    /*
+      Fungsi ini dipanggil dari Kotlin Android:
+      webView.evaluateJavascript(
+          "showResultFromAndroid('Bercak Daun', '98.25', 'data:image/jpeg;base64,...', '{...}', '<p>info</p>')",
+          null
+      )
+
+      Parameter:
+      - label: hasil penyakit
+      - confidence: akurasi
+      - imageDataUrl: opsional, boleh kosong
+      - probabilitiesJson: opsional, format JSON string
+      - info: opsional, HTML informasi singkat
+    */
+    function showResultFromAndroid(label, confidence, imageDataUrl = "", probabilitiesJson = "", info = "") {
+        let probabilities = {};
+
+        try {
+            if (probabilitiesJson && probabilitiesJson.trim() !== "") {
+                probabilities = JSON.parse(probabilitiesJson);
+            }
+        } catch (e) {
+            console.error("Probabilities JSON tidak valid:", e);
+            probabilities = {};
+        }
+
+        const result = {
+            label: label || "-",
+            confidence: confidence || 0,
+            image_path: imageDataUrl || "",
+            probabilities: probabilities,
+            info: info || getDiseaseInfo(label || "-")
+        };
+
+        updateResult(result);
+        document.getElementById("result-area").scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+
+    function getDiseaseInfo(label) {
+        const infos = {
+            "Bercak Daun": `
+                Penyakit bercak daun pada jagung disebabkan oleh infeksi jamur yang menyerang jaringan daun.
+                <br><br>
+                <b>Penanganan:</b>
+                <ul>
+                    <li>Gunakan benih berkualitas dan tahan penyakit</li>
+                    <li>Jaga kelembapan lahan agar tidak terlalu tinggi</li>
+                    <li>Buang daun yang terinfeksi</li>
+                    <li>Gunakan fungisida sesuai anjuran</li>
+                </ul>
+            `,
+            "Hawar Daun": `
+                Hawar daun ditandai dengan bercak memanjang berwarna coklat hingga abu-abu pada daun.
+                <br><br>
+                <b>Penanganan:</b>
+                <ul>
+                    <li>Gunakan varietas jagung tahan penyakit</li>
+                    <li>Hindari kelembapan berlebih</li>
+                    <li>Lakukan rotasi tanaman</li>
+                    <li>Gunakan fungisida secara tepat</li>
+                </ul>
+            `,
+            "Karat Daun": `
+                Karat daun menyebabkan bintik kecil berwarna kuning kecoklatan menyerupai karat.
+                <br><br>
+                <b>Penanganan:</b>
+                <ul>
+                    <li>Gunakan fungisida sesuai dosis</li>
+                    <li>Kurangi kelembapan area tanam</li>
+                    <li>Bersihkan sisa tanaman yang terinfeksi</li>
+                    <li>Gunakan varietas tahan penyakit</li>
+                </ul>
+            `,
+            "Sehat": `
+                Daun jagung berada dalam kondisi sehat dan tidak menunjukkan gejala penyakit.
+                <br><br>
+                <b>Saran Perawatan:</b>
+                <ul>
+                    <li>Lakukan penyiraman secara teratur</li>
+                    <li>Gunakan pupuk sesuai kebutuhan tanaman</li>
+                    <li>Jaga kebersihan lahan</li>
+                    <li>Lakukan pemeriksaan rutin untuk mencegah penyakit</li>
+                </ul>
+            `
+        };
+
+        return infos[label] || "Informasi penyakit belum tersedia.";
     }
 
     function updateResult(result) {
@@ -1383,27 +1431,34 @@
                 </div>
                 <div class="result-chip accent">
                     <div class="chip-label">Akurasi</div>
-                    <div class="chip-value">${result.confidence}%</div>
+                    <div class="chip-value">${Number(result.confidence).toFixed(2)}%</div>
                 </div>
             </div>
-
-            <img src="${result.image_path}?t=${new Date().getTime()}" class="preview-img" style="display:block; margin-bottom:18px;">
-
-            <div class="result-section-title">Distribusi Probabilitas</div>
         `;
 
-        for (const [label, prob] of Object.entries(result.probabilities)) {
+        if (result.image_path) {
             html += `
-                <div class="bar-item">
-                    <div class="bar-label">
-                        <span>${label}</span>
-                        <span class="bar-pct">${prob}%</span>
-                    </div>
-                    <div class="bar-bg">
-                        <div class="bar-fill" style="width:${prob}%;"></div>
-                    </div>
-                </div>
+                <img src="${result.image_path}" class="preview-img" style="display:block; margin-bottom:18px;">
             `;
+        }
+
+        if (result.probabilities && Object.keys(result.probabilities).length > 0) {
+            html += `<div class="result-section-title">Distribusi Probabilitas</div>`;
+
+            for (const [label, prob] of Object.entries(result.probabilities)) {
+                const cleanProb = Number(prob).toFixed(2);
+                html += `
+                    <div class="bar-item">
+                        <div class="bar-label">
+                            <span>${label}</span>
+                            <span class="bar-pct">${cleanProb}%</span>
+                        </div>
+                        <div class="bar-bg">
+                            <div class="bar-fill" style="width:${cleanProb}%;"></div>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
         html += `
@@ -1418,8 +1473,11 @@
     }
 
     function getHistory() {
-        try { return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]'); }
-        catch { return []; }
+        try {
+            return JSON.parse(localStorage.getItem(HISTORY_KEY) || '[]');
+        } catch {
+            return [];
+        }
     }
 
     function setHistory(history) {
@@ -1438,8 +1496,11 @@
     function formatDate(dateString) {
         const date = new Date(dateString);
         return date.toLocaleString('id-ID', {
-            day: 'numeric', month: 'short', year: 'numeric',
-            hour: '2-digit', minute: '2-digit'
+            day: 'numeric',
+            month: 'short',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
         });
     }
 
@@ -1449,12 +1510,20 @@
         const history = getHistory();
         const latest = history[0];
         const newPath = result.image_path || '';
-        if (latest && latest.label === result.label && latest.confidence === result.confidence && latest.image_path === newPath) return;
+
+        if (
+            latest &&
+            latest.label === result.label &&
+            latest.confidence === result.confidence &&
+            latest.image_path === newPath
+        ) {
+            return;
+        }
 
         const item = {
             id: Date.now(),
             label: result.label,
-            confidence: result.confidence,
+            confidence: Number(result.confidence).toFixed(2),
             severity: result.severity || getSeverityFromLabel(result.label),
             date: new Date().toISOString(),
             image_path: newPath,
@@ -1462,7 +1531,11 @@
         };
 
         history.unshift(item);
-        if (history.length > MAX_HISTORY_ITEMS) history.splice(MAX_HISTORY_ITEMS);
+
+        if (history.length > MAX_HISTORY_ITEMS) {
+            history.splice(MAX_HISTORY_ITEMS);
+        }
+
         setHistory(history);
     }
 
@@ -1472,12 +1545,14 @@
         const history = getHistory();
 
         historyBody.innerHTML = '';
+
         if (!history.length) {
             emptyState.style.display = 'block';
             return;
         }
 
         emptyState.style.display = 'none';
+
         history.forEach(item => {
             const row = document.createElement('tr');
 
@@ -1545,11 +1620,18 @@
 
     window.addEventListener('DOMContentLoaded', () => {
         renderHistory();
+
         if (serverResult && serverResult.label) {
             const history = getHistory();
             const latest = history[0];
             const serverImage = serverResult.image_path || '';
-            if (!latest || latest.label !== serverResult.label || latest.confidence !== serverResult.confidence || latest.image_path !== serverImage) {
+
+            if (
+                !latest ||
+                latest.label !== serverResult.label ||
+                latest.confidence !== serverResult.confidence ||
+                latest.image_path !== serverImage
+            ) {
                 saveHistoryFromResult(serverResult);
             }
         }
