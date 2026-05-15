@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>CornDetect - Deteksi Penyakit Daun Jagung</title>
-    <meta name="viewport" content="width=1200, initial-scale=0.35, maximum-scale=2.0, user-scalable=yes">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 
     <style>
@@ -992,45 +992,313 @@
     }
 
 
-    /* ─── ANDROID WEBVIEW DESKTOP MODE FIX ───── */
-    html {
-        width: 1200px;
-        min-width: 1200px;
-        overflow-x: auto;
+    /* ─── MOBILE CLEAN APK MODE ───────────────── */
+    .mobile-bottom-nav {
+        display: none;
     }
 
-    body {
-        width: 1200px;
-        min-width: 1200px;
-        overflow-x: auto;
-    }
+    @media (max-width: 900px) {
+        body {
+            background: #f4f8f2;
+            overflow-x: hidden;
+        }
 
-    .app-shell {
-        min-width: 1200px;
-    }
+        .app-shell {
+            display: block;
+            min-height: 100vh;
+            width: 100%;
+        }
 
-    /* ─── MOBILE ─────────────────────────────── */
-    @media (max-width: 700px) {
-        .stat-strip { grid-template-columns: repeat(2, 1fr); }
-        .hero { grid-template-columns: 1fr; }
-        .hero-visual { display: none; }
-        .feature-strip { grid-template-columns: repeat(2, 1fr); }
-    }
+        .sidebar {
+            display: none;
+        }
 
-    @media (max-width: 600px) {
-        .two-col { grid-template-columns: 1fr; }
-        .sidebar { display: none; }
-        .page-body { padding: 20px 16px 40px; }
-        .topbar { padding: 0 16px; }
-        .hero { padding: 28px 24px; border-radius: var(--radius-lg); }
-        .hero-title { font-size: 26px; }
-        .stat-strip { grid-template-columns: 1fr 1fr; }
+        .main {
+            width: 100%;
+        }
+
+        .topbar {
+            height: 58px;
+            padding: 0 16px;
+            border-bottom: 1px solid #dbe8d5;
+            background: rgba(255,255,255,.96);
+            backdrop-filter: blur(10px);
+        }
+
+        .breadcrumb {
+            font-size: 12px;
+        }
+
+        .topbar-badge {
+            display: none;
+        }
+
+        .page-body {
+            padding: 16px 14px 92px;
+            gap: 18px;
+        }
+
+        .hero {
+            grid-template-columns: 1fr;
+            padding: 24px 20px;
+            border-radius: 22px;
+            gap: 18px;
+        }
+
+        .hero::before {
+            width: 220px;
+            height: 220px;
+            top: -60px;
+            right: -70px;
+        }
+
+        .hero-eyebrow {
+            font-size: 10.5px;
+            padding: 5px 11px;
+            margin-bottom: 14px;
+        }
+
+        .hero-title {
+            font-size: 28px;
+            line-height: 1.15;
+            margin-bottom: 10px;
+        }
+
+        .hero-desc {
+            font-size: 13.5px;
+            line-height: 1.65;
+            margin-bottom: 20px;
+        }
+
+        .hero-actions {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .btn-primary,
+        .btn-ghost {
+            width: 100%;
+            justify-content: center;
+            padding: 13px 18px;
+            font-size: 13.5px;
+        }
+
+        .hero-visual {
+            display: none;
+        }
+
+        .stat-strip {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+        }
+
+        .stat-card {
+            padding: 15px 14px;
+            border-radius: 18px;
+            gap: 10px;
+        }
+
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            font-size: 17px;
+        }
+
+        .stat-info p {
+            font-size: 10.5px;
+        }
+
+        .stat-info .stat-val {
+            font-size: 18px;
+        }
+
+        .two-col {
+            grid-template-columns: 1fr;
+            gap: 18px;
+        }
+
+        .card {
+            border-radius: 22px;
+        }
+
+        .card-header {
+            padding: 20px 18px 0;
+            margin-bottom: 16px;
+        }
+
+        .card-title {
+            font-size: 15px;
+        }
+
+        .card-body {
+            padding: 0 18px 20px;
+        }
+
+        .upload-zone {
+            padding: 24px 16px;
+            border-radius: 18px;
+        }
+
+        .upload-zone-icon {
+            font-size: 34px;
+        }
+
+        .upload-zone h4 {
+            font-size: 13.5px;
+        }
+
+        .upload-zone p {
+            font-size: 12.5px;
+        }
+
+        .file-label,
+        .detect-btn,
+        .camera-btn,
+        .stop-btn {
+            font-size: 13.5px;
+            padding: 13px 16px;
+        }
+
+        .result-chips {
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+
+        .result-chip {
+            padding: 14px 15px;
+            border-radius: 16px;
+        }
+
+        .result-chip .chip-value {
+            font-size: 20px;
+        }
+
+        .info-card {
+            padding: 16px;
+            border-radius: 16px;
+        }
+
+        .info-text {
+            font-size: 13.5px;
+            line-height: 1.7;
+        }
+
+        .history-section {
+            border-radius: 22px;
+        }
+
+        .section-header {
+            padding: 18px;
+        }
+
+        .section-title {
+            font-size: 15px;
+        }
+
+        .section-link {
+            font-size: 12px;
+        }
+
+        .table-responsive {
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .history-table {
+            min-width: 620px;
+        }
+
+        .history-table th {
+            padding: 10px 14px;
+            font-size: 10.5px;
+        }
+
+        .history-table td {
+            padding: 12px 14px;
+            font-size: 12.5px;
+        }
+
+        .feature-strip {
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .feature-card {
+            padding: 18px 14px;
+            border-radius: 18px;
+        }
+
+        .feature-card-icon {
+            font-size: 22px;
+            margin-bottom: 9px;
+        }
+
+        .feature-card h4 {
+            font-size: 13px;
+        }
+
+        .feature-card p {
+            font-size: 12px;
+        }
+
+        .mobile-bottom-nav {
+            position: fixed;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            z-index: 999;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 4px;
+            padding: 8px;
+            background: rgba(255,255,255,.96);
+            border: 1px solid #d7e8d2;
+            border-radius: 22px;
+            box-shadow: 0 10px 30px rgba(15,23,42,.14);
+            backdrop-filter: blur(12px);
+        }
+
+        .mobile-bottom-nav a {
+            text-decoration: none;
+            color: var(--slate-500);
+            font-size: 10px;
+            font-weight: 700;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 3px;
+            padding: 7px 2px;
+            border-radius: 15px;
+        }
+
+        .mobile-bottom-nav a.active,
+        .mobile-bottom-nav a:hover {
+            background: var(--green-50);
+            color: var(--green-700);
+        }
+
+        .mobile-bottom-nav .nav-icon {
+            font-size: 17px;
+            line-height: 1;
+        }
     }
 
     @media (max-width: 420px) {
-        .stat-strip { grid-template-columns: 1fr; }
-        .feature-strip { grid-template-columns: 1fr; }
-        .result-chips { grid-template-columns: 1fr; }
+        .page-body {
+            padding-left: 12px;
+            padding-right: 12px;
+        }
+
+        .hero-title {
+            font-size: 25px;
+        }
+
+        .stat-strip,
+        .feature-strip {
+            grid-template-columns: 1fr;
+        }
     }
     </style>
 </head>
@@ -1131,7 +1399,7 @@
                             📤 Upload Gambar
                         </button>
                         <button type="button" class="btn-ghost" onclick="startLiveDetection()">
-                            📡 Kamera Live
+                            📷 Kamera
                         </button>
                     </div>
                 </div>
@@ -1170,14 +1438,14 @@
                         </form>
 
                         <button id="startBtn" onclick="startLiveDetection()" class="camera-btn">
-                            📷 Mulai Kamera Live
+                            📷 Buka Kamera
                         </button>
                         <button id="stopBtn" onclick="stopLiveDetection()" class="stop-btn">
                             ⏹ Stop Kamera Live
                         </button>
 
                         <div id="liveStatus" class="live-status">
-                            📡 Kamera live aktif. Arahkan daun jagung ke kamera...
+                            📡 Kamera aktif. Arahkan daun jagung ke kamera...
                         </div>
                         <video id="video" autoplay playsinline></video>
                         <canvas id="canvas" style="display:none;"></canvas>
@@ -1228,7 +1496,7 @@
                             {% else %}
                                 <div class="empty-result">
                                     <div class="empty-result-icon">🌽</div>
-                                    <p>Belum ada hasil deteksi.<br>Upload gambar atau gunakan <b>Kamera Live</b> untuk memulai.</p>
+                                    <p>Belum ada hasil deteksi.<br>Upload gambar atau gunakan <b>Kamera</b> untuk memulai.</p>
                                 </div>
                             {% endif %}
                         </div>
@@ -1288,6 +1556,14 @@
 
         </div><!-- /page-body -->
     </div><!-- /main -->
+    <nav class="mobile-bottom-nav" aria-label="Navigasi Mobile">
+        <a href="/" class="active"><span class="nav-icon">🏠</span><span>Home</span></a>
+        <a href="#deteksi"><span class="nav-icon">🔍</span><span>Deteksi</span></a>
+        <a href="#riwayat"><span class="nav-icon">📋</span><span>Riwayat</span></a>
+        <a href="/informasi"><span class="nav-icon">📚</span><span>Info</span></a>
+        <a href="/tentang"><span class="nav-icon">ℹ️</span><span>Tentang</span></a>
+    </nav>
+
 </div><!-- /app-shell -->
 
 <script>
