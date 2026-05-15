@@ -9,12 +9,12 @@ from werkzeug.utils import secure_filename
 app = Flask(__name__)
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, "Model", "Model_CNN_256px.keras")
+MODEL_PATH = None
 UPLOAD_FOLDER = os.path.join(BASE_DIR, "static", "uploads")
 
 os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
-model = load_model(MODEL_PATH)
+model = None
 
 class_labels = {
     0: "Bercak Daun",
