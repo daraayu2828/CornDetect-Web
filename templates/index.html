@@ -992,6 +992,78 @@
     }
 
 
+        #splash-screen {
+    position: fixed;
+    inset: 0;
+    background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#splash-screen img {
+    width: 130px;
+    height: 130px;
+    object-fit: contain;
+    animation: splashZoom .8s ease;
+}
+
+#splash-screen h1 {
+    margin-top: 18px;
+    color: #14532d;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+#splash-screen p {
+    margin-top: 6px;
+    color: #64748b;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.splash-loader {
+    margin-top: 24px;
+    width: 120px;
+    height: 6px;
+    background: #bbf7d0;
+    border-radius: 999px;
+    overflow: hidden;
+}
+
+.splash-loader::after {
+    content: "";
+    display: block;
+    width: 45%;
+    height: 100%;
+    background: #22c55e;
+    border-radius: 999px;
+    animation: loadingMove 1.1s infinite ease-in-out;
+}
+
+@keyframes splashZoom {
+    from {
+        opacity: 0;
+        transform: scale(.82);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes loadingMove {
+    0% {
+        transform: translateX(-120%);
+    }
+    100% {
+        transform: translateX(260%);
+    }
+}
+        
+
     /* ─── MOBILE CLEAN APK MODE ───────────────── */
     .mobile-bottom-nav {
         display: none;
@@ -1664,6 +1736,13 @@
 </head>
 
 <body>
+
+    <div id="splash-screen">
+    <img src="/static/img/cornsplash.png" alt="CornDetect Logo">
+    <h1>CornDetect</h1>
+    <p>Deteksi Penyakit Daun Jagung</p>
+    <div class="splash-loader"></div>
+</div>
 
 <header class="mobile-appbar" aria-label="Header aplikasi">
     <div class="mobile-brand">
@@ -2442,6 +2521,18 @@ function closeMobileMenu() {
     if (drawer) drawer.classList.remove("show");
     if (backdrop) backdrop.classList.remove("show");
 }
+
+    window.addEventListener("load", function () {
+    setTimeout(function () {
+        const splash = document.getElementById("splash-screen");
+        if (splash) {
+            splash.style.opacity = "0";
+            splash.style.transition = "opacity .5s ease";
+            setTimeout(() => splash.remove(), 500);
+        }
+    }, 1200);
+});
+    
 </script>
 
 </body>
