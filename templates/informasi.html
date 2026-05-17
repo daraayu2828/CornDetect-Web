@@ -55,6 +55,40 @@
         min-height: 100vh;
     }
 
+        .treatment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.treatment-card {
+    background: #f8fafc;
+    border-radius: 14px;
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+}
+
+.treatment-card h4 {
+    font-size: 13px;
+    margin-bottom: 6px;
+    font-weight: 800;
+}
+
+.tradisional {
+    border-left: 4px solid #22c55e;
+}
+
+.modern {
+    border-left: 4px solid #0ea5e9;
+}
+
+@media (max-width: 820px) {
+    .treatment-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
     /* ─── SIDEBAR ────────────────────────────── */
     .sidebar {
         width: 260px;
@@ -828,12 +862,27 @@
                     </ul>
 
                     <h3>Penanganan</h3>
-                    <ul>
-                        <li>Gunakan varietas jagung yang tahan penyakit</li>
-                        <li>Kurangi kelembapan berlebih pada lahan</li>
-                        <li>Lakukan rotasi tanaman</li>
-                        <li>Gunakan fungisida sesuai anjuran</li>
-                    </ul>
+<div class="treatment-grid">
+
+<div class="treatment-card tradisional">
+<h4>🌿 Tradisional</h4>
+<ul>
+<li>Semprot air rebusan daun sirih</li>
+<li>Gunakan campuran bawang putih</li>
+<li>Buang daun yang terinfeksi</li>
+</ul>
+</div>
+
+<div class="treatment-card modern">
+<h4>🧪 Modern</h4>
+<ul>
+<li>Gunakan fungisida</li>
+<li>Rotasi tanaman</li>
+<li>Gunakan varietas tahan penyakit</li>
+</ul>
+</div>
+
+</div>
 
                     <span class="tag">⚠️ Tingkat risiko: Sedang - Tinggi</span>
                 </div>
@@ -855,12 +904,27 @@
                     </ul>
 
                     <h3>Penanganan</h3>
-                    <ul>
-                        <li>Bersihkan sisa tanaman yang terinfeksi</li>
-                        <li>Gunakan fungisida sesuai dosis</li>
-                        <li>Jaga jarak tanam agar sirkulasi udara baik</li>
-                        <li>Gunakan benih atau varietas tahan penyakit</li>
-                    </ul>
+<div class="treatment-grid">
+
+<div class="treatment-card tradisional">
+<h4>🌿 Tradisional</h4>
+<ul>
+<li>Semprot air bawang putih</li>
+<li>Bersihkan daun terinfeksi</li>
+<li>Gunakan larutan alami anti jamur</li>
+</ul>
+</div>
+
+<div class="treatment-card modern">
+<h4>🧪 Modern</h4>
+<ul>
+<li>Gunakan fungisida khusus karat</li>
+<li>Jaga jarak tanam</li>
+<li>Gunakan benih unggul</li>
+</ul>
+</div>
+
+</div>
 
                     <span class="tag">⚠️ Tingkat risiko: Sedang</span>
                 </div>
@@ -882,12 +946,27 @@
                     </ul>
 
                     <h3>Penanganan</h3>
-                    <ul>
-                        <li>Buang bagian daun yang terinfeksi</li>
-                        <li>Jaga kebersihan area tanam</li>
-                        <li>Hindari kelembapan terlalu tinggi</li>
-                        <li>Gunakan fungisida sesuai kebutuhan</li>
-                    </ul>
+<div class="treatment-grid">
+
+<div class="treatment-card tradisional">
+<h4>🌿 Tradisional</h4>
+<ul>
+<li>Semprot air daun sirih</li>
+<li>Potong daun yang rusak</li>
+<li>Gunakan air tembakau alami</li>
+</ul>
+</div>
+
+<div class="treatment-card modern">
+<h4>🧪 Modern</h4>
+<ul>
+<li>Gunakan pestisida sesuai dosis</li>
+<li>Kontrol kelembapan</li>
+<li>Gunakan pupuk seimbang</li>
+</ul>
+</div>
+
+</div>
 
                     <span class="tag">⚠️ Tingkat risiko: Sedang</span>
                 </div>
@@ -909,12 +988,27 @@
                     </ul>
 
                     <h3>Perawatan</h3>
-                    <ul>
-                        <li>Lakukan penyiraman secara teratur</li>
-                        <li>Gunakan pupuk sesuai kebutuhan</li>
-                        <li>Jaga kebersihan lahan</li>
-                        <li>Periksa kondisi tanaman secara berkala</li>
-                    </ul>
+<div class="treatment-grid">
+
+<div class="treatment-card tradisional">
+<h4>🌿 Tradisional</h4>
+<ul>
+<li>Penyiraman rutin</li>
+<li>Gunakan pupuk organik</li>
+<li>Jaga kebersihan lahan</li>
+</ul>
+</div>
+
+<div class="treatment-card modern">
+<h4>🧪 Modern</h4>
+<ul>
+<li>Pupuk NPK terukur</li>
+<li>Monitoring kondisi tanah</li>
+<li>Gunakan teknologi pertanian</li>
+</ul>
+</div>
+
+</div>
 
                     <span class="tag">✅ Kondisi: Baik</span>
                 </div>
