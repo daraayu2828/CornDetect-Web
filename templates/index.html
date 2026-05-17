@@ -1518,6 +1518,148 @@
     }
 }
 
+    
+/* ─── RESULT TREATMENT MODERN/TRADISIONAL ───── */
+.result-summary-card {
+    background: linear-gradient(135deg, #f0fdf4, #ffffff);
+    border: 1px solid var(--green-200);
+    border-radius: var(--radius-lg);
+    padding: 18px;
+    margin-bottom: 16px;
+}
+
+.result-summary-head {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+}
+
+.result-summary-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 16px;
+    background: var(--green-100);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    flex-shrink: 0;
+}
+
+.result-summary-title {
+    font-size: 18px;
+    font-weight: 800;
+    color: var(--green-900);
+    line-height: 1.2;
+}
+
+.result-summary-sub {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--slate-500);
+    margin-top: 3px;
+}
+
+.detected-image {
+    width: 100%;
+    max-height: 260px;
+    object-fit: cover;
+    border-radius: var(--radius-lg);
+    border: 1px solid var(--slate-200);
+    margin-bottom: 16px;
+    display: block;
+}
+
+.treatment-title {
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: .08em;
+    color: var(--slate-500);
+    margin: 18px 0 10px;
+}
+
+.treatment-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+.treatment-card {
+    background: #fff;
+    border: 1px solid var(--slate-200);
+    border-radius: var(--radius-md);
+    padding: 16px;
+}
+
+.treatment-card.tradisional {
+    border-left: 4px solid var(--green-500);
+    background: #f7fef9;
+}
+
+.treatment-card.modern {
+    border-left: 4px solid #0ea5e9;
+    background: #f8fbff;
+}
+
+.treatment-card h4 {
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--slate-800);
+    margin-bottom: 9px;
+}
+
+.treatment-card ul {
+    padding-left: 18px;
+}
+
+.treatment-card li {
+    font-size: 13.5px;
+    color: var(--slate-600);
+    line-height: 1.65;
+    margin-bottom: 7px;
+}
+
+.warning-note {
+    margin-top: 14px;
+    background: #fffbeb;
+    border: 1px solid #fde68a;
+    border-left: 4px solid #f59e0b;
+    border-radius: var(--radius-md);
+    padding: 13px 15px;
+    font-size: 13px;
+    color: #92400e;
+    line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+    .detected-image {
+        max-height: 220px;
+        border-radius: 18px;
+    }
+
+    .result-summary-card {
+        padding: 16px;
+        border-radius: 18px;
+    }
+
+    .treatment-grid {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .treatment-card {
+        padding: 15px;
+        border-radius: 16px;
+    }
+
+    .treatment-card li {
+        font-size: 13px;
+    }
+}
+
     </style>
 </head>
 
@@ -1916,74 +2058,153 @@
         document.getElementById("result-area").scrollIntoView({ behavior: "smooth", block: "start" });
     }
 
-    function getDiseaseInfo(label) {
-        const infos = {
-            "Bercak Daun": `
-                Penyakit bercak daun pada jagung disebabkan oleh infeksi jamur yang menyerang jaringan daun.
-                <br><br>
-                <b>Penanganan:</b>
-                <ul>
-                    <li>Gunakan benih berkualitas dan tahan penyakit</li>
-                    <li>Jaga kelembapan lahan agar tidak terlalu tinggi</li>
-                    <li>Buang daun yang terinfeksi</li>
-                    <li>Gunakan fungisida sesuai anjuran</li>
-                </ul>
-            `,
-            "Hawar Daun": `
-                Hawar daun ditandai dengan bercak memanjang berwarna coklat hingga abu-abu pada daun.
-                <br><br>
-                <b>Penanganan:</b>
-                <ul>
-                    <li>Gunakan varietas jagung tahan penyakit</li>
-                    <li>Hindari kelembapan berlebih</li>
-                    <li>Lakukan rotasi tanaman</li>
-                    <li>Gunakan fungisida secara tepat</li>
-                </ul>
-            `,
-            "Karat Daun": `
-                Karat daun menyebabkan bintik kecil berwarna kuning kecoklatan menyerupai karat.
-                <br><br>
-                <b>Penanganan:</b>
-                <ul>
-                    <li>Gunakan fungisida sesuai dosis</li>
-                    <li>Kurangi kelembapan area tanam</li>
-                    <li>Bersihkan sisa tanaman yang terinfeksi</li>
-                    <li>Gunakan varietas tahan penyakit</li>
-                </ul>
-            `,
-            "Sehat": `
-                Daun jagung berada dalam kondisi sehat dan tidak menunjukkan gejala penyakit.
-                <br><br>
-                <b>Saran Perawatan:</b>
-                <ul>
-                    <li>Lakukan penyiraman secara teratur</li>
-                    <li>Gunakan pupuk sesuai kebutuhan tanaman</li>
-                    <li>Jaga kebersihan lahan</li>
-                    <li>Lakukan pemeriksaan rutin untuk mencegah penyakit</li>
-                </ul>
-            `
+    function getDiseaseData(label) {
+        const data = {
+            "Bercak Daun": {
+                icon: "🌿",
+                title: "Bercak Daun",
+                summary: `
+                    Penyakit bercak daun menyebabkan bercak coklat atau abu-abu pada permukaan daun jagung.
+                    Jika dibiarkan, bercak dapat mengganggu proses fotosintesis dan menurunkan kualitas pertumbuhan tanaman.
+                `,
+                tradisional: [
+                    "Potong dan buang daun yang sudah terinfeksi agar tidak menyebar.",
+                    "Semprot larutan alami seperti rebusan daun sirih atau campuran bawang putih yang sudah disaring.",
+                    "Jaga kebersihan lahan dan hindari genangan air di sekitar tanaman.",
+                    "Kurangi kelembapan berlebih dengan memberi jarak antar tanaman."
+                ],
+                modern: [
+                    "Gunakan fungisida sesuai dosis dan anjuran pada kemasan.",
+                    "Gunakan benih atau varietas jagung yang lebih tahan penyakit.",
+                    "Lakukan pengaturan jarak tanam agar sirkulasi udara lebih baik.",
+                    "Pantau tanaman secara berkala dan lakukan penyemprotan preventif bila gejala mulai muncul."
+                ],
+                note: "Jika bercak menyebar cepat, lakukan pemeriksaan langsung pada lahan dan konsultasikan dengan penyuluh pertanian."
+            },
+            "Hawar Daun": {
+                icon: "🍂",
+                title: "Hawar Daun",
+                summary: `
+                    Hawar daun biasanya ditandai dengan bercak memanjang berwarna coklat hingga abu-abu.
+                    Penyakit ini dapat berkembang cepat terutama pada kondisi lahan yang lembap.
+                `,
+                tradisional: [
+                    "Buang daun yang menunjukkan gejala parah agar infeksi tidak menyebar.",
+                    "Gunakan semprotan alami dari rebusan daun sirih atau bawang putih yang sudah disaring.",
+                    "Kurangi kelembapan lahan dengan memperbaiki sirkulasi udara.",
+                    "Bersihkan sisa tanaman sakit setelah panen."
+                ],
+                modern: [
+                    "Gunakan fungisida yang direkomendasikan untuk penyakit hawar daun.",
+                    "Lakukan rotasi tanaman agar sumber penyakit di tanah berkurang.",
+                    "Gunakan varietas jagung yang tahan terhadap hawar daun.",
+                    "Atur jarak tanam dan hindari penyiraman berlebihan pada daun."
+                ],
+                note: "Hawar daun bisa menyebar cepat, jadi penanganan awal sangat penting ketika gejala mulai terlihat."
+            },
+            "Karat Daun": {
+                icon: "🟤",
+                title: "Karat Daun",
+                summary: `
+                    Karat daun menyebabkan bintik kecil berwarna kuning kecoklatan seperti serbuk karat.
+                    Penyakit ini dapat menyebar melalui angin dan sisa tanaman yang terinfeksi.
+                `,
+                tradisional: [
+                    "Bersihkan daun dan sisa tanaman yang sudah terinfeksi.",
+                    "Semprot larutan bawang putih yang sudah disaring sebagai bantuan pengendalian alami.",
+                    "Jaga kebersihan lahan agar sumber jamur berkurang.",
+                    "Pastikan tanaman tidak terlalu rapat agar udara tetap lancar."
+                ],
+                modern: [
+                    "Gunakan fungisida khusus penyakit karat sesuai dosis.",
+                    "Gunakan varietas atau benih jagung yang lebih tahan karat daun.",
+                    "Atur jarak tanam untuk mengurangi kelembapan di antara tanaman.",
+                    "Lakukan monitoring rutin, terutama saat cuaca lembap."
+                ],
+                note: "Penyakit karat daun sering menyebar lewat angin, jadi perhatikan tanaman sekitar yang memiliki gejala serupa."
+            },
+            "Sehat": {
+                icon: "✅",
+                title: "Daun Sehat",
+                summary: `
+                    Daun jagung terdeteksi sehat. Daun biasanya tampak hijau segar, bersih, dan tidak menunjukkan bercak atau karat.
+                    Tetap lakukan perawatan rutin agar kondisi tanaman terjaga.
+                `,
+                tradisional: [
+                    "Gunakan pupuk organik seperti kompos atau pupuk kandang matang.",
+                    "Lakukan penyiraman secukupnya dan jangan sampai lahan terlalu becek.",
+                    "Bersihkan gulma di sekitar tanaman secara rutin.",
+                    "Amati daun secara berkala untuk deteksi gejala awal."
+                ],
+                modern: [
+                    "Gunakan pupuk NPK atau pupuk seimbang sesuai kebutuhan tanaman.",
+                    "Lakukan monitoring kondisi tanaman secara terjadwal.",
+                    "Gunakan mulsa atau pengelolaan lahan yang baik untuk menjaga kelembapan.",
+                    "Terapkan pencegahan hama dan penyakit sesuai anjuran pertanian."
+                ],
+                note: "Meskipun sehat, tanaman tetap perlu dipantau karena penyakit dapat muncul saat cuaca lembap atau perawatan kurang optimal."
+            }
         };
 
-        return infos[label] || "Informasi penyakit belum tersedia.";
+        return data[label] || {
+            icon: "🌽",
+            title: label || "Tidak diketahui",
+            summary: "Informasi penyakit belum tersedia.",
+            tradisional: ["Lakukan pemeriksaan visual pada daun dan bersihkan bagian tanaman yang rusak."],
+            modern: ["Konsultasikan kondisi tanaman dengan penyuluh pertanian atau ahli tanaman."],
+            note: "Gunakan hasil deteksi sebagai identifikasi awal, bukan satu-satunya dasar keputusan."
+        };
+    }
+
+    function getDiseaseInfo(label) {
+        const disease = getDiseaseData(label);
+        return `
+            <p>${disease.summary}</p>
+            <div class="treatment-title">Penanganan</div>
+            <div class="treatment-grid">
+                <div class="treatment-card tradisional">
+                    <h4>🌿 Tradisional</h4>
+                    <ul>${disease.tradisional.map(item => `<li>${item}</li>`).join("")}</ul>
+                </div>
+                <div class="treatment-card modern">
+                    <h4>🧪 Modern</h4>
+                    <ul>${disease.modern.map(item => `<li>${item}</li>`).join("")}</ul>
+                </div>
+            </div>
+            <div class="warning-note">📌 ${disease.note}</div>
+        `;
     }
 
     function updateResult(result) {
+        const disease = getDiseaseData(result.label);
+        const confidence = Number(result.confidence || 0).toFixed(2);
+
         let html = `
-            <div class="result-chips">
-                <div class="result-chip">
-                    <div class="chip-label">Penyakit Terdeteksi</div>
-                    <div class="chip-value">${result.label}</div>
+            <div class="result-summary-card">
+                <div class="result-summary-head">
+                    <div class="result-summary-icon">${disease.icon}</div>
+                    <div>
+                        <div class="result-summary-title">${disease.title}</div>
+                        <div class="result-summary-sub">Hasil deteksi AI CornDetect</div>
+                    </div>
                 </div>
-                <div class="result-chip accent">
-                    <div class="chip-label">Akurasi</div>
-                    <div class="chip-value">${Number(result.confidence).toFixed(2)}%</div>
+
+                <div class="result-chips">
+                    <div class="result-chip">
+                        <div class="chip-label">Penyakit Terdeteksi</div>
+                        <div class="chip-value">${disease.title}</div>
+                    </div>
+                    <div class="result-chip accent">
+                        <div class="chip-label">Akurasi</div>
+                        <div class="chip-value">${confidence}%</div>
+                    </div>
                 </div>
             </div>
         `;
 
         if (result.image_path) {
             html += `
-                <img src="${result.image_path}" class="preview-img" style="display:block; margin-bottom:18px;">
+                <img src="${result.image_path}" class="detected-image" alt="Gambar daun jagung yang dideteksi">
             `;
         }
 
@@ -2008,12 +2229,35 @@
 
         html += `
             <div class="info-card">
-                <div class="info-card-title">📋 Informasi Singkat</div>
-                <div class="info-text">${result.info}</div>
+                <div class="info-card-title">📋 Informasi Penyakit</div>
+                <div class="info-text">${disease.summary}</div>
+            </div>
+
+            <div class="treatment-title">Penanganan yang Disarankan</div>
+            <div class="treatment-grid">
+                <div class="treatment-card tradisional">
+                    <h4>🌿 Tradisional</h4>
+                    <ul>
+                        ${disease.tradisional.map(item => `<li>${item}</li>`).join("")}
+                    </ul>
+                </div>
+
+                <div class="treatment-card modern">
+                    <h4>🧪 Modern</h4>
+                    <ul>
+                        ${disease.modern.map(item => `<li>${item}</li>`).join("")}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="warning-note">
+                📌 ${disease.note}
             </div>
         `;
 
         document.getElementById("result-area").innerHTML = html;
+
+        result.info = getDiseaseInfo(result.label);
         saveHistoryFromResult(result);
     }
 
