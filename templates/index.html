@@ -346,8 +346,8 @@
         color: var(--slate-600);
         font-size: 15px;
         line-height: 1.75;
-        margin-bottom: 28px;
-        max-width: 480px;
+        margin-bottom: 0;
+        max-width: 520px;
     }
 
     .hero-actions {
@@ -951,46 +951,6 @@
         font-size: 14px;
     }
 
-    /* ─── FEATURE STRIP ──────────────────────── */
-    .feature-strip {
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 16px;
-    }
-
-    .feature-card {
-        background: #fff;
-        border: 1px solid var(--slate-200);
-        border-radius: var(--radius-lg);
-        padding: 22px 20px;
-        transition: all .2s ease;
-    }
-
-    .feature-card:hover {
-        border-color: var(--green-300);
-        transform: translateY(-2px);
-        box-shadow: var(--shadow-md);
-    }
-
-    .feature-card-icon {
-        font-size: 26px;
-        margin-bottom: 12px;
-        display: block;
-    }
-
-    .feature-card h4 {
-        font-size: 14px;
-        font-weight: 800;
-        color: var(--slate-800);
-        margin-bottom: 5px;
-    }
-
-    .feature-card p {
-        font-size: 13px;
-        color: var(--slate-500);
-        line-height: 1.55;
-    }
-
 
         #splash-screen {
     position: fixed;
@@ -1139,7 +1099,7 @@
         .hero-desc {
             font-size: 13.5px;
             line-height: 1.65;
-            margin-bottom: 20px;
+            margin-bottom: 0;
         }
 
         .hero-actions {
@@ -1291,29 +1251,6 @@
             font-size: 12.5px;
         }
 
-        .feature-strip {
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-        }
-
-        .feature-card {
-            padding: 18px 14px;
-            border-radius: 18px;
-        }
-
-        .feature-card-icon {
-            font-size: 22px;
-            margin-bottom: 9px;
-        }
-
-        .feature-card h4 {
-            font-size: 13px;
-        }
-
-        .feature-card p {
-            font-size: 12px;
-        }
-
         .mobile-bottom-nav {
             position: fixed;
             left: 10px;
@@ -1367,8 +1304,7 @@
             font-size: 25px;
         }
 
-        .stat-strip,
-        .feature-strip {
+        .stat-strip {
             grid-template-columns: 1fr;
         }
     }
@@ -1396,7 +1332,7 @@
         z-index: 1200;
         display: flex;
         align-items: center;
-        justify-content: space-between;
+        justify-content: flex-start;
         padding: 0 14px;
         background: rgba(255,255,255,.96);
         border-bottom: 1px solid #dbe8d5;
@@ -1752,23 +1688,7 @@
             <span>Deteksi penyakit daun jagung</span>
         </div>
     </div>
-    <button type="button" class="mobile-menu-btn" onclick="toggleMobileMenu()" aria-label="Buka menu">☰</button>
 </header>
-
-<div id="mobileBackdrop" class="mobile-backdrop" onclick="closeMobileMenu()"></div>
-<nav id="mobileDrawer" class="mobile-drawer" aria-label="Menu mobile">
-    <div class="mobile-drawer-head">
-        <div class="mobile-drawer-title">Menu CornDetect</div>
-        <button type="button" class="mobile-close-btn" onclick="closeMobileMenu()" aria-label="Tutup menu">×</button>
-    </div>
-    <a href="/" class="active">🏠 Beranda</a>
-    <a href="/#deteksi">🔍 Deteksi</a>
-    <a href="/#riwayat">📋 Riwayat</a>
-    <a href="/informasi">📚 Informasi Penyakit</a>
-    <a href="/tentang">ℹ️ Tentang Kami</a>
-</nav>
-
-
 <div class="app-shell">
 
     <!-- ─── SIDEBAR ─────────────────────────────────── -->
@@ -1858,14 +1778,6 @@
                     </div>
                     <h1 class="hero-title">Deteksi Penyakit<br>Daun <em>Jagung</em> Instan</h1>
                     <p class="hero-desc">Unggah foto daun jagung atau aktifkan kamera live untuk mendeteksi penyakit secara cepat dan akurat menggunakan model AI berbasis CNN.</p>
-                    <div class="hero-actions">
-                        <button type="button" class="btn-primary" onclick="chooseImageFromAndroid()">
-                            📤 Upload Gambar
-                        </button>
-                        <button type="button" class="btn-ghost" onclick="startLiveDetection()">
-                            📷 Kamera
-                        </button>
-                    </div>
                 </div>
                 <div class="hero-visual">
                     <img src="/static/img/herojagung.jpeg" alt="Daun Jagung">
@@ -1993,31 +1905,6 @@
                     <p>Tidak ada riwayat deteksi. Mulai deteksi untuk menyimpan hasil otomatis.</p>
                 </div>
             </section>
-
-            <!-- FEATURE STRIP -->
-            <div class="feature-strip">
-                <div class="feature-card">
-                    <span class="feature-card-icon">🎯</span>
-                    <h4>Akurasi Tinggi</h4>
-                    <p>Menggunakan model AI CNN yang telah dilatih dengan ribuan data daun jagung.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-card-icon">📡</span>
-                    <h4>Live Detection</h4>
-                    <p>Prediksi penyakit secara otomatis langsung dari kamera real-time.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-card-icon">✨</span>
-                    <h4>Mudah Digunakan</h4>
-                    <p>Antarmuka sederhana dan intuitif, bisa digunakan siapa saja.</p>
-                </div>
-                <div class="feature-card">
-                    <span class="feature-card-icon">🆓</span>
-                    <h4>Sepenuhnya Gratis</h4>
-                    <p>Dapat digunakan tanpa biaya dan tanpa batas deteksi.</p>
-                </div>
-            </div>
-
         </div><!-- /page-body -->
     </div><!-- /main -->
     <nav class="mobile-bottom-nav" aria-label="Navigasi Mobile">
