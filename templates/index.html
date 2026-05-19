@@ -1368,6 +1368,14 @@
         flex-shrink: 0;
     }
 
+
+    .mobile-brand-icon img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 12px;
+    }
+
     .mobile-brand-text {
         display: flex;
         flex-direction: column;
@@ -1393,6 +1401,7 @@
     }
 
     .mobile-menu-btn {
+        display: none;
         width: 38px;
         height: 38px;
         border: 1px solid #d7e8d2;
@@ -1690,7 +1699,7 @@
 
 <header class="mobile-appbar" aria-label="Header aplikasi">
     <div class="mobile-brand">
-        <div class="mobile-brand-icon">🌽</div>
+        <div class="mobile-brand-icon"><img src="/static/img/cornsplash.png" alt="CornDetect"></div>
         <div class="mobile-brand-text">
             <strong>CornDetect</strong>
             <span>Deteksi penyakit daun jagung</span>
@@ -2403,21 +2412,7 @@
 
 
 <script>
-function toggleMobileMenu() {
-    const drawer = document.getElementById("mobileDrawer");
-    const backdrop = document.getElementById("mobileBackdrop");
-    if (drawer) drawer.classList.toggle("show");
-    if (backdrop) backdrop.classList.toggle("show");
-}
-
-function closeMobileMenu() {
-    const drawer = document.getElementById("mobileDrawer");
-    const backdrop = document.getElementById("mobileBackdrop");
-    if (drawer) drawer.classList.remove("show");
-    if (backdrop) backdrop.classList.remove("show");
-}
-
-    window.addEventListener("load", function () {
+window.addEventListener("load", function () {
     setTimeout(function () {
         const splash = document.getElementById("splash-screen");
         if (splash) {
@@ -2427,7 +2422,6 @@ function closeMobileMenu() {
         }
     }, 1200);
 });
-    
 </script>
 
 </body>
